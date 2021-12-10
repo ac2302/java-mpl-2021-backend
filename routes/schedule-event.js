@@ -5,7 +5,7 @@ const config = require("../config");
 const authOnlyMiddleware = require("../middlewares/authonly");
 
 router.post("/daily", authOnlyMiddleware, async (req, res) => {
-	const { name, start, end, description, reminder } = req.body;
+	const { name, start, end, description } = req.body;
 
 	if (!name || !start || !end)
 		return res.json({ err: "missing required fields" });
@@ -15,7 +15,6 @@ router.post("/daily", authOnlyMiddleware, async (req, res) => {
 		start,
 		end,
 		description,
-		reminder,
 	});
 
 	try {
@@ -24,7 +23,7 @@ router.post("/daily", authOnlyMiddleware, async (req, res) => {
 		return res.status(400).json({ err });
 	}
 
-	res.json({ name, start, end, description, reminder });
+	res.json({ name, start, end, description });
 });
 
 router.post("/", authOnlyMiddleware, async (req, res) => {
