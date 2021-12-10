@@ -13,7 +13,7 @@ mongoose.connect(process.env.DB_STRING, () => {
 // middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({ exposedHeaders: "auth-token" }));
+app.use(cors({ exposedHeaders: "token" }));
 
 const PORT = process.env.PORT || 5050;
 app.listen(PORT, () => console.log(`server live on port ${PORT}`));
