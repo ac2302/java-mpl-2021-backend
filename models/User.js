@@ -5,6 +5,7 @@ const eventSchema = new mongoose.Schema({
 	start: { type: Number },
 	end: { type: Number },
 	description: { type: String },
+	reminder: { type: Date },
 });
 
 const daySchema = new mongoose.Schema({
