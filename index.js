@@ -15,8 +15,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({ exposedHeaders: "token" }));
 
+app.use(require("./middlewares/auth"));
+
 const PORT = process.env.PORT || 5050;
 app.listen(PORT, () => console.log(`server live on port ${PORT}`));
 
 // routes
 app.use("/auth", require("./routes/auth"));
+app.use("/schedule-event", require("./routes/schedule-event"));
