@@ -1,14 +1,10 @@
 const mongoose = require("mongoose");
 
-const timeSchema = new mongoose.Schema({
-	hours: { type: Number },
-	minutes: { type: Number },
-});
-
 const eventSchema = new mongoose.Schema({
 	name: { type: String },
-	start: { type: timeSchema },
-	end: { type: timeSchema },
+	start: { type: Number },
+	end: { type: Number },
+	description: { type: String },
 });
 
 const daySchema = new mongoose.Schema({
@@ -43,36 +39,6 @@ module.exports = mongoose.model(
 			daily: {
 				type: [eventSchema],
 				default: [],
-			},
-			weekly: {
-				monday: {
-					type: [eventSchema],
-					default: [],
-				},
-				tuesday: {
-					type: [eventSchema],
-					default: [],
-				},
-				wednesday: {
-					type: [eventSchema],
-					default: [],
-				},
-				thursday: {
-					type: [eventSchema],
-					default: [],
-				},
-				friday: {
-					type: [eventSchema],
-					default: [],
-				},
-				saturday: {
-					type: [eventSchema],
-					default: [],
-				},
-				sunday: {
-					type: [eventSchema],
-					default: [],
-				},
 			},
 			days: {
 				type: [daySchema],
