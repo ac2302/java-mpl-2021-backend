@@ -27,4 +27,47 @@ router.post("/daily", authOnlyMiddleware, async (req, res) => {
 	res.json({ name, start, end, description, reminder });
 });
 
+router.post("/", authOnlyMiddleware, async (req, res) => {
+	const { name, start, end, description, reminder, year, month, day } =
+		req.body;
+
+	if (!name || !start || !end || !year || !month || !day)
+		return res.json({ err: "missing required fields" });
+
+	// getting day
+	const days = req.auth.user.events.days.filter(
+		(d) => d.year === year && d.month === month && d.day === day
+	);
+
+	if (days.length === 0) {
+		// add new day
+		req.auth.user.events.days.push({
+			year,
+			month,
+			day,
+			events: [
+				{
+					name,
+					start,
+					end,
+					description,
+					reminder,
+				},
+			],
+		});
+	} else {
+		// add event to day
+		req.auth.user.events.days = req.auth.user.events.days.map((d) => {
+			if (d.year === year && d.month === month && d.day === day) {
+				d.events.push({ name, start, end, description, reminder });
+			}
+			return d;
+		});
+	}
+
+	await req.auth.user.save();
+
+	res.json({ name, start, end, description, reminder, year, month, day });
+});
+
 module.exports = router;
