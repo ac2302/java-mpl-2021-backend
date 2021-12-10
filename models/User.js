@@ -9,6 +9,7 @@ const eventSchema = new mongoose.Schema({
 });
 
 const daySchema = new mongoose.Schema({
+	year: { type: Number },
 	month: { type: Number },
 	day: { type: Number },
 	events: {
