@@ -3,7 +3,7 @@ const router = require("express").Router();
 const User = require("../models/User");
 const config = require("../config");
 
-router.get("/self", (req, res) => {
+router.get("/self", require("../middlewares/authonly"), (req, res) => {
 	res.json(req.auth);
 });
 
