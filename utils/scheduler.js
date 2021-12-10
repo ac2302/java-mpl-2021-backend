@@ -1,5 +1,7 @@
 function getMatrix(user, year, month, day) {
-	let dailySchedule = user.events.daily.daily;
+	console.log({ user });
+
+	let dailySchedule = user.events.daily;
 	let events = dailySchedule;
 
 	const days = user.events.days.filter(
@@ -21,3 +23,21 @@ function getMatrix(user, year, month, day) {
 
 	return matrix;
 }
+
+function getCommonMatrix(users, year, month, day) {
+	const matrices = users.map((user) => getMatrix(user, year, month, day));
+	let commonMatrix = Array(60 * 24).fill(true);
+
+	for (let i = 0; i < 60 * 24; i++) {
+		matrices.forEach((matrix) => {
+			commonMatrix[i] = commonMatrix[i] && matrix[i];
+		});
+	}
+
+	return commonMatrix;
+}
+
+module.exports = {
+	getMatrix,
+	getCommonMatrix,
+};

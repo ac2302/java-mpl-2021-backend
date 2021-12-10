@@ -70,4 +70,18 @@ router.post("/", authOnlyMiddleware, async (req, res) => {
 	res.json({ name, start, end, description, reminder, year, month, day });
 });
 
+
+const getMatrix = require('../utils/scheduler').getMatrix
+
+router.post("/debug", authOnlyMiddleware, async (req, res) => {
+	const { year, month, day } =
+		req.body;
+
+	if (!year || !month || !day)
+		return res.json({ err: "missing required fields" });
+
+    res.json({'matrix': getMatrix(req.auth.user, year, month, day)});
+	
+});
+
 module.exports = router;
