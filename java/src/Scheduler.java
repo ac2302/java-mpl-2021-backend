@@ -44,7 +44,7 @@ public class Scheduler {
     }
 
     public static String streak(boolean arr[]) {
-        String[] streaks;
+        String[] streaks = new String[] {};
 
         for(int i=0;i<arr.length;i++){
             if(arr[i]==true){
