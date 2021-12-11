@@ -13,6 +13,7 @@ mongoose.connect(process.env.DB_STRING, () => {
 // middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+// app.use(cors({ exposedHeaders: "token" }));
 app.use(cors({ exposedHeaders: "token" }));
 
 app.use(require("./middlewares/auth"));
