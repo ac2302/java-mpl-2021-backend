@@ -3,6 +3,7 @@ const router = require("express").Router();
 const User = require("../models/User");
 const config = require("../config");
 const authOnlyMiddleware = require("../middlewares/authonly");
+const scheduler = require("../utils/scheduler");
 
 router.post("/daily", authOnlyMiddleware, async (req, res) => {
 	const { name, start, end, description } = req.body;
@@ -69,18 +70,29 @@ router.post("/", authOnlyMiddleware, async (req, res) => {
 	res.json({ name, start, end, description, reminder, year, month, day });
 });
 
-
-const getMatrix = require('../utils/scheduler').getMatrix
-
 router.post("/debug", authOnlyMiddleware, async (req, res) => {
-	const { year, month, day } =
-		req.body;
+	const { year, month, day } = req.body;
 
 	if (!year || !month || !day)
 		return res.json({ err: "missing required fields" });
 
-    res.json({'matrix': getMatrix(req.auth.user, year, month, day)});
-	
+	res.json({ matrix: scheduler.getMatrix(req.auth.user, year, month, day) });
+});
+
+router.post("/meeting", authOnlyMiddleware, async (req, res) => {
+	const { year, month, day, users } = req.body;
+
+	if (!year || !month || !day)
+		return res.json({ err: "missing required fields" });
+
+	let meetingUsers = [];
+	for (let i = 0; i < users.length; i++) {
+		meetingUsers.push(await User.findOne({ username: users[i] }));
+	}
+
+	res.json({
+		freeTime: scheduler.getFreeTime(meetingUsers, year, month, day),
+	});
 });
 
 module.exports = router;

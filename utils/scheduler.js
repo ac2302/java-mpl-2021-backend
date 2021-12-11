@@ -37,7 +37,40 @@ function getCommonMatrix(users, year, month, day) {
 	return commonMatrix;
 }
 
+function prettyMatrix(test) {
+	var index = [];
+	var ans = [];
+	var count = 0;
+	var k = 0;
+
+	var length = test.length;
+	for (let i = 0; i < length; i++) {
+		if (test[i] == true) {
+			index.push(i);
+		}
+	}
+
+	for (let j = 0; j < index.length; j++) {
+		var last;
+
+		if (index[j + 1] - index[j] == 1) {
+			last = index[j + 1];
+		} else {
+			ans[count] = { start: index[k], end: index[j] };
+			k = j + 1;
+			count++;
+		}
+	}
+	return ans;
+}
+
+function getFreeTime(users, year, month, day) {
+	return prettyMatrix(getCommonMatrix(users, year, month, day));
+}
+
 module.exports = {
 	getMatrix,
 	getCommonMatrix,
+	prettyMatrix,
+	getFreeTime,
 };
