@@ -15,7 +15,7 @@ router.post("/register", async (req, res) => {
 
 	// checking if username exists
 	const users = await User.find({ username: username });
-	if (users.length > 0) return res.send("username is taken");
+	if (users.length > 0) return res.status(400).send("username is taken");
 
 	// add user
 	const newUser = new User({ username, password, email });
@@ -34,7 +34,8 @@ router.post("/login", async (req, res) => {
 
 	const user = users[0];
 
-	if (user.password !== password) return res.status(400).send("incorrect password");
+	if (user.password !== password)
+		return res.status(400).send("incorrect password");
 
 	// sending token
 	const token = await jwt.sign(
